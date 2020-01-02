@@ -2,16 +2,17 @@ node('maven') {
     stage('git') {
     git 'https://github.com/wakaleo/game-of-life.git'
 }
- stage('junit') {
+   stage('executeshell') {
+    sh label: '', script: 'mvn clean package'
+}
+   stage('junit') {
     junit 'target/*.xml'
 }
 
- stage('archiveArtifacts ') {
+   stage('archiveArtifacts ') {
    archiveArtifacts 'target/*.jar'
 }
 
-stage('executeshell') {
-  sh label: '', script: 'mvn clean package'
-}
+
 
 }
