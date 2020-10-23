@@ -1,0 +1,21 @@
+--- 
+- hosts : all 
+  become : yes 
+  tasks :
+    - name : build NEW UPDATED IMAGE 
+      command : docker image build -t gameoflife:latest .
+    - name : tag image 
+      command :  docker tag gameoflife rakeshirukula/gameoflife 
+    - name: Log into DockerHub
+      docker_login:            
+        username: "{{ username }}"                       
+        password: "{{password}}"
+        email: "{{emailid}}"
+    - name :  push 
+      command : docker push rakeshirukula/gameoflife
+    - name : delete image 
+      command : docker rmi gameoflife:latest rakeshirukula/gameoflife 
+    - name: Log out of DockerHub
+      docker_login:
+        state: absent
+        email: "{{emailid}}"

@@ -1,0 +1,20 @@
+--- 
+- hosts : all 
+  become : yes
+  tasks :
+     - name : Stop container                        
+       command : docker stop gameoflifecontainer
+       ignore_errors : yes 
+     - name : remove stopped container               
+       command : docker rm gameoflifecontainer
+       ignore_errors : yes 
+     - name : delete previous image                                    
+       command :  docker rmi rakeshirukula/gameoflife:latest
+       ignore_errors : yes
+     - name : pulling new version of docker image             
+       command : docker pull rakeshirukula/gameoflife:latest
+       ignore_errors : yes 
+     - name : running latest container                
+       command : docker run -d --name gameoflifecontainer -p 8080:8080 gameoflife     
+       ignore_errors : yes 
+  
